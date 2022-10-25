@@ -11,12 +11,11 @@ public class Padre {
 
         try {
 
-            // En esta clase se debe tener un scanner que pregunte que cliente se desea buscar en el hijo
 // Llamar a la clase Hijo compilada anteriormente
 
-            Process hijo = new ProcessBuilder("java","Hijo").start();
+            Process hijo = new ProcessBuilder("java", "Hijo").start();
 
-// Buffer para leer los datos del proceso hijo
+// Buffer para datos del proceso hijo
 
             BufferedReader br = new BufferedReader(new InputStreamReader(hijo.getInputStream()));
 
@@ -26,7 +25,7 @@ public class Padre {
 
 // Buffer que lee de consola
 
-            BufferedReader in = new BufferedReader(new InputStreamReader (System.in));
+            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
             System.out.println("Enviar un mensaje al proceso hijo:");
 
@@ -36,15 +35,8 @@ public class Padre {
 
             ps.println(line);
 
-// Recibir información del padre 
-
-            line = br.readLine();
-
-            System.out.println(line) ;
-
         } catch (IOException e) {
-            System.out.println("Error : " + e.getMessage());
+            throw new RuntimeException(e);
         }
-
     }
 }
