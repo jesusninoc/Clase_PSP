@@ -26,7 +26,7 @@ public class Padre3 {
 
             BufferedReader in = new BufferedReader(new InputStreamReader (System. in));
 
-            System.out.println("Introduzca el DNI a buscar: " );
+            System.out.println("Introduzca el DNI de la persona a buscar: " );
 
 // Enviar mensaje al hijo
 
