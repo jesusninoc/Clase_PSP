@@ -50,6 +50,5 @@ public class RatonH extends Thread{
         raton1.start();
         raton2.start();
         raton3.start();
-
     }
 }
