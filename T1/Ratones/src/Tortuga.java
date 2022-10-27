@@ -42,7 +42,7 @@ public class Tortuga extends Thread {
         }
     }
 
-    // Zona ejecutable del multihilo
+
     public static void main(String[] args) {
         Liebre liebre = new Liebre("Bugs Bunny", 3);
         Tortuga tortuga = new Tortuga("Paco",3);
