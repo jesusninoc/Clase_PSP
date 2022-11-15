@@ -6,22 +6,22 @@ import java.util.ArrayList;
 public class Proceso3 extends Thread{
 
     public void run () {
-        // Segunda lista de clientes
-        Cliente cliente1 = new Cliente(1,"5678A","Angel","Lopez",20,600999888,"angellopez@gmail.com");
-        Cliente cliente2 = new Cliente(2,"5678B","Cristina","Lopez",24,600999777,"cristinalopez@gmail.com");
-        Cliente cliente3 = new Cliente(3,"5678C","Jessica","Marulanda",24,600999666,"jessicamarulanda@gmail.com");
-        Cliente cliente4 = new Cliente(4,"5678D","Patricia","Fraile",19,600999555,"patriciafraile@gmail.com");
-        Cliente cliente5 = new Cliente(5,"5678E","Andrea","Fernandez",31,600999444,"andreafernandez@gmail.com");
+        // Lista de pedidos
 
-        ArrayList<Cliente> listaClientes = new ArrayList<>();
-        listaClientes.add(cliente1);
-        listaClientes.add(cliente2);
-        listaClientes.add(cliente3);
-        listaClientes.add(cliente4);
-        listaClientes.add(cliente5);
+        Pedido pedido1 = new Pedido("1234A","Memoria RAM","32 GB",1,1, 99.98);
+        Pedido pedido2 = new Pedido("1234B","Disco duro SSD","1 TB",2,1, 149.99);
+        Pedido pedido3 = new Pedido("1234C","Tarjeta gráfica","RTX Gaming - 12 GB",3,1, 399.91);
+        Pedido pedido4 = new Pedido("1234D","Caja PC","Con luce LED RGB",4,1, 59.96);
+        Pedido pedido5 = new Pedido("1234E","Teclado USB","Color negro",5,1, 6.99);
+
+        ArrayList<Pedido> listaClientes = new ArrayList<>();
+        listaClientes.add(pedido1);
+        listaClientes.add(pedido2);
+        listaClientes.add(pedido3);
+        listaClientes.add(pedido4);
+        listaClientes.add(pedido5);
 
         String leer;
-
 
         try {
 
@@ -33,78 +33,34 @@ public class Proceso3 extends Thread{
 
             leer = br.readLine();
 
-            for (Cliente item: listaClientes) {
-                int id, telefono, edad;
-                String nombre, apellido, dni, correo,mensaje;
+            for (Pedido item: listaClientes) {
 
                 if(leer.equalsIgnoreCase(item.getDni())){
-                    System.out.println("Mostrando cliente con DNI " + leer + " de la 2da lista: " + item.mostrarDatos());
+                    System.out.println("Mostrando pedido del cliente con DNI " + leer + ": " + item.mostrarDatosPedidos());
                 }
             }
 
             //System.out.println("Su palabra es " + leer +  " || Numero de caracteres: " + leer.length());
-
 
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
 
-    private static class Cliente{
-        int id, telefono, edad;
-        String nombre, apellido, dni, correo;
 
-        public Cliente() {
-        }
+    private static class Pedido{
+        String dni, producto, descripcion;
+        int id_pedido, cantidad;
+        double precio_unidad, precio_total;
 
-        public Cliente(int id, String dni, String nombre, String apellido, int edad, int telefono, String correo) {
-            this.id = id;
-            this.telefono = telefono;
-            this.edad = edad;
-            this.nombre = nombre;
-            this.apellido = apellido;
+        public Pedido(String dni, String producto, String descripcion, int id_pedido, int cantidad, double precio_unidad) {
             this.dni = dni;
-            this.correo = correo;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public int getTelefono() {
-            return telefono;
-        }
-
-        public void setTelefono(int telefono) {
-            this.telefono = telefono;
-        }
-
-        public int getEdad() {
-            return edad;
-        }
-
-        public void setEdad(int edad) {
-            this.edad = edad;
-        }
-
-        public String getNombre() {
-            return nombre;
-        }
-
-        public void setNombre(String nombre) {
-            this.nombre = nombre;
-        }
-
-        public String getApellido() {
-            return apellido;
-        }
-
-        public void setApellido(String apellido) {
-            this.apellido = apellido;
+            this.producto = producto;
+            this.descripcion = descripcion;
+            this.id_pedido = id_pedido;
+            this.cantidad = cantidad;
+            this.precio_unidad = precio_unidad;
+            this.precio_total = (double)cantidad * precio_unidad;
         }
 
         public String getDni() {
@@ -115,23 +71,63 @@ public class Proceso3 extends Thread{
             this.dni = dni;
         }
 
-        public String getCorreo() {
-            return correo;
+        public String getProducto() {
+            return producto;
         }
 
-        public void setCorreo(String correo) {
-            this.correo = correo;
+        public void setProducto(String producto) {
+            this.producto = producto;
         }
 
-        private String mostrarDatos(){
+        public String getDescripcion() {
+            return descripcion;
+        }
+
+        public void setDescripcion(String descripcion) {
+            this.descripcion = descripcion;
+        }
+
+        public int getId_pedido() {
+            return id_pedido;
+        }
+
+        public void setId_pedido(int id_pedido) {
+            this.id_pedido = id_pedido;
+        }
+
+        public int getCantidad() {
+            return cantidad;
+        }
+
+        public void setCantidad(int cantidad) {
+            this.cantidad = cantidad;
+        }
+
+        public double getPrecio_unidad() {
+            return precio_unidad;
+        }
+
+        public void setPrecio_unidad(double precio_unidad) {
+            this.precio_unidad = precio_unidad;
+        }
+
+        public double getPrecio_total() {
+            return precio_total;
+        }
+
+        public void setPrecio_total(double precio_total) {
+            this.precio_total = precio_total;
+        }
+
+        private String mostrarDatosPedidos(){
             String mensaje;
-            mensaje = ("  ID: " + id +
+            mensaje = ("  ID: " + id_pedido +
                     "  DNI: " + dni +
-                    "  Nombre: " + nombre +
-                    "  Apellido: " + apellido +
-                    "  Edad: " + edad +
-                    "  Telefono: : " + telefono +
-                    "  Correo: " + correo);
+                    "  Producto: " + producto +
+                    "  Descripcion: " + descripcion +
+                    "  Cantidad: " + cantidad +
+                    "  Precio unidad: " + precio_unidad + "€" +
+                    "  Total: " + precio_unidad + "€ ");
             return mensaje;
         }
     }

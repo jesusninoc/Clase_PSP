@@ -18,7 +18,7 @@ public class Proceso1 extends Thread{
 
             BufferedReader in = new BufferedReader(new InputStreamReader (System. in));
 
-            System.out.println("Introduzca el DNI del cliente a buscar en la 1era lista: " );
+            System.out.println("Introduzca el DNI del cliente a buscar: " );
 
             line = in.readLine();
 

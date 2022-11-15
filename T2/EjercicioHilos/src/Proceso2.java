@@ -34,7 +34,7 @@ public class Proceso2 extends Thread{
                 String nombre, apellido, dni, correo,mensaje;
 
                 if(leer.equalsIgnoreCase(item.getDni())){
-                    System.out.println("Mostrando cliente con DNI " + leer + " de la 1era lista: " + item.mostrarDatos());
+                    System.out.println("Mostrando datos del cliente con DNI " + leer + ": " + item.mostrarDatos());
                 }
             }
 

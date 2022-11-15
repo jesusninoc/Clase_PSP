@@ -8,7 +8,7 @@ public class Main {
 
         hilo1.start();
         hilo2.start();
-        hilo3.start();
         hilo4.start();
+        hilo3.start();
     }
 }
