@@ -59,7 +59,7 @@ public class Gestoria extends Thread{
         for(int i = 0; i < this.cliente.getTramites().length; i++){
             this.esperarXSegundos(cliente.getTramites()[i]);
             System.out.println("Procesando el tramite " + (i+1)
-                    + " del cliente " + this.cliente.getNombre() + " " + this.cliente.getApellido() + " " + ", con DNI: "
+                    + " del cliente " + this.cliente.getNombre() + " " + this.cliente.getApellido()  + ", con DNI: "
                     + this.cliente.getDni() + " -> Tiempo: "
                     + (System.currentTimeMillis() - this.tiempoInicial) / 1000
                     + "seg"
