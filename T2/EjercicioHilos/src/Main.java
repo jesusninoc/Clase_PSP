@@ -18,5 +18,6 @@ public class Main {
         */
 
         Hijo3 hilo = new Hijo3("Juan");
+        hilo.start();
     }
 }

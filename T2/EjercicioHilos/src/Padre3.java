@@ -13,6 +13,7 @@ public class Padre3 {
         public static void main(String args[]) {
 
             String dni;
+            String dni2;
 
             try {
 
@@ -24,11 +25,14 @@ public class Padre3 {
 
 // Buffer para datos del proceso hijo
 
+                // nos conectamos al stream del hijo
                 BufferedReader br = new BufferedReader(new InputStreamReader(hijo.getInputStream()));
 
-// Stream salida
 
+// Stream salida
+                // envia el mensaje
                 PrintStream ps = new PrintStream(hijo.getOutputStream(), true);
+                PrintStream ps2 = new PrintStream(hijo.getOutputStream(), true);
 
 // Buffer que lee de consola
 
@@ -40,18 +44,24 @@ public class Padre3 {
 
                 dni = in.readLine();
 
+                System.out.println("Envia el 2do DNI:");
+
+                dni2 = in.readLine();
+
                 ps.println(dni);
+                ps2.println(dni2);
+
 
 // Recibir información del padre
 
                 dni = br.readLine();
+                dni2 = br.readLine();
 
-                System.out.println(dni);
+                //System.out.println(dni + "fdof");
+                //System.out.println(dni2+"ofejpe");
 
             } catch (IOException e) {
                 System.out.println("Error : " + e.getMessage());
             }
-
         }
     }
-

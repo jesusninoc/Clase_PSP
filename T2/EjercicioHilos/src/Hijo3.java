@@ -14,6 +14,7 @@ public class Hijo3 extends Thread{
     public static void main(String[] args) {
 
         String leer;
+        String leer2;
 
         try {
 
@@ -22,6 +23,7 @@ public class Hijo3 extends Thread{
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
             leer = new String();
+            leer2 = new String();
 
             leer = br.readLine() + " Mensaje procesado";
 
