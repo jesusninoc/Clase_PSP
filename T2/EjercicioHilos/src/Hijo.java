@@ -6,21 +6,9 @@ import java.util.ArrayList;
 public class Hijo {
     public static void main(String[] args) {
 
-        Cliente cliente1 = new Cliente(1, "1234A", "Naiara", "Gonzalez", 22, 600999888, "naiaragonzalez@gmail.com");
-        Cliente cliente2 = new Cliente(2, "1234B", "Angel", "Castro", 20, 600999777, "angelcastro@gmail.com");
-        Cliente cliente3 = new Cliente(3, "1234C", "Juan", "Manizales", 26, 600999666, "juanmanizales@gmail.com");
-        Cliente cliente4 = new Cliente(4, "1234D", "Ricardo", "Sangronis", 19, 600999555, "ricardosangronis@gmail.com");
-        Cliente cliente5 = new Cliente(5, "1234E", "Angelica", "Garcia", 22, 600999444, "angelicagarcia@gmail.com");
-
-        ArrayList<Cliente> listaClientes = new ArrayList<>();
-        listaClientes.add(cliente1);
-        listaClientes.add(cliente2);
-        listaClientes.add(cliente3);
-        listaClientes.add(cliente4);
-        listaClientes.add(cliente5);
-
         String leer;
-        String[] contenido;
+        String[] contenido = new String[2];
+        String dni1, dni2;
 
 
         try {
@@ -28,13 +16,20 @@ public class Hijo {
             leer = new String();
             leer = br.readLine();
             contenido = leer.split(",");
-            String dni1 = contenido[0];
-            String dni2 = contenido[0];
+            dni1 = contenido[0];
+            dni2 = contenido[1];
 
-            for (int i = 0; i < contenido.length; i++) {
-                buscarCliente(contenido[i].toString(), listaClientes);
-            }
+            HiloUno hiloUno = new HiloUno(dni1);
+            HiloUno hiloDos = new HiloUno(dni2);
+
+            hiloUno.start();
+            hiloUno.join();
+            hiloDos.start();
+
+
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
@@ -43,7 +38,7 @@ public class Hijo {
 
     private static String buscarCliente(String dniBuscar1, ArrayList<Cliente> listaClientes) {
 
-        String mensaje1=null;
+        String mensaje1 = null;
 
         for (Cliente item : listaClientes) {
             if (dniBuscar1.equalsIgnoreCase(item.getDni())) {
@@ -151,7 +146,7 @@ public class Hijo {
         }
 
         private static String buscarCliente(String dniBuscar1, String dniBuscar2, Cliente cliente, ArrayList<Cliente> listaClientes) {
-           String mensaje1=null, mensaje2=null;
+            String mensaje1 = null, mensaje2 = null;
 
             for (Cliente item : listaClientes) {
                 if (dniBuscar1.equalsIgnoreCase(item.getDni())) {
@@ -161,7 +156,45 @@ public class Hijo {
                 }
             }
 
-            return mensaje1 + mensaje2;
+            return mensaje1;
+        }
+    }
+
+    public static class HiloUno extends Thread {
+
+        ArrayList<Cliente> listaClientes = new ArrayList<>();
+
+        String nombre = "";
+
+        public HiloUno(String nombre) {
+            this.nombre = nombre;
+        }
+
+        public void agregarClientes() {
+
+            Cliente cliente1 = new Cliente(1, "1234A", "Naiara", "Gonzalez", 22, 600999888, "naiaragonzalez@gmail.com");
+            Cliente cliente2 = new Cliente(2, "1234B", "Angel", "Castro", 20, 600999777, "angelcastro@gmail.com");
+            Cliente cliente3 = new Cliente(3, "1234C", "Juan", "Manizales", 26, 600999666, "juanmanizales@gmail.com");
+            Cliente cliente4 = new Cliente(4, "1234D", "Ricardo", "Sangronis", 19, 600999555, "ricardosangronis@gmail.com");
+            Cliente cliente5 = new Cliente(5, "1234E", "Angelica", "Garcia", 22, 600999444, "angelicagarcia@gmail.com");
+
+            ArrayList<Cliente> listaClientes = new ArrayList<>();
+            listaClientes.add(cliente1);
+            listaClientes.add(cliente2);
+            listaClientes.add(cliente3);
+            listaClientes.add(cliente4);
+            listaClientes.add(cliente5);
+        }
+
+        @Override
+        public void run() {
+
+            agregarClientes();
+            for (Cliente item : listaClientes) {
+                if (item.getDni().equalsIgnoreCase(nombre)) {
+                    item.mostrarDatos();
+                }
+            }
         }
     }
 }
