@@ -1,23 +1,36 @@
-public class Main {
+import java.io.IOException;
+
+public class Main extends Thread{
+
+    private Padre padre;
+
+    public Main(Padre padre){
+        this.padre = padre;
+    }
+
+    public void correr(){
+        try {
+            System.out.println("----Iniciando...----");
+            Thread.sleep(100);
+            ProcessBuilder padre1 = new ProcessBuilder("java","src/Padre.java");
+            padre1.inheritIO();
+            Process process = padre1.start();
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void run() {
+        correr();
+    }
 
     public static void main(String[] args) {
-
-        /*
-        // Implementar el llamado de clientes desde el padre al hijo
-        Cliente cliente1 = new Cliente(1,"1234A","Angelica","Fernandez",21,600111222,"angelicafernandez@gmail.com", new int[] { 2, 1, 2, 1, 2}); // total seg = 8
-        Cliente cliente2 = new Cliente(2,"1234B","Raul","Alvarez",34,600111333,"raulalvarez@gmail.com", new int[] { 1, 2, 3 }); // total seg: 6 -> supuesto total estimado: 14seg
-
-        // Establecer un tiempo inicial de referencia para supervisar la duracion de los procesos
-        long tiempoInicial = System.currentTimeMillis();
-
-        Gestoria gestoria = new Gestoria("Riu S.A", cliente1, tiempoInicial);
-        Gestoria gestoria1 = new Gestoria("Riu S.A", cliente2, tiempoInicial);
-
-        gestoria.start();
-        gestoria1.start();
-        */
-
-        Hijo3 hilo = new Hijo3("Juan");
-        hilo.start();
+        Main main1 = new Main(new Padre("ola"));
+        main1.start();
     }
 }
+

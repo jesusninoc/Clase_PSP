@@ -1,6 +1,3 @@
-
-import java.util.ArrayList;
-
 public class Cliente {
 
     private int id, telefono, edad;
@@ -8,7 +5,7 @@ public class Cliente {
     private int[] tramites;
 
 
-    public Cliente() {
+    public Cliente(int i, String s, String naiara, String gonzalez, int i1, int i2, String s1) {
     }
 
     public Cliente(int id, String dni, String nombre, String apellido, int edad, int telefono, String correo, int[] tramites) {
