@@ -9,3 +9,6 @@ SSLServerSocket
 Client:
 SSLSocketFactory
 SSLSocket
+
+Vaina rara para generar un certificado con Keytool:
+
