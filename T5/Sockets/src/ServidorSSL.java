@@ -1,39 +1,40 @@
-import javax.net.ssl.SSLServerSocket;
-import javax.net.ssl.SSLServerSocketFactory;
-import javax.net.ssl.SSLSocket;
 import java.io.*;
+import javax.net.ssl.*;
 
 public class ServidorSSL {
+    public static void main(String[] arg) throws IOException {
+        int puerto = 5556;
 
-    public static void main(String[] args) {
+        System.setProperty("javax.net.ssl.keyStore","src/AlmacenSrv2");
+        System.setProperty("javax.net.ssl.keyStorePassword","1234567");
 
-        int puerto = 6000;
+        SSLServerSocketFactory sfact = (SSLServerSocketFactory) SSLServerSocketFactory
+                .getDefault();
+        SSLServerSocket servidorSSL = (SSLServerSocket) sfact
+                .createServerSocket(puerto);
+        SSLSocket clienteConectado = null;
+        DataInputStream flujoEntrada = null;//FLUJO DE ENTRADA DE CLIENTE
+        DataOutputStream flujoSalida = null;//FLUJO DE SALIDA AL CLIENTE
 
-        SSLServerSocketFactory sfact = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+        for (int i = 1; i < 5; i++) {
+            System.out.println("Esperando al cliente " + i);
+            clienteConectado = (SSLSocket) servidorSSL.accept();
+            flujoEntrada = new DataInputStream(clienteConectado.getInputStream());
 
-        try {
-            SSLServerSocket servidorSSL = (SSLServerSocket) sfact.createServerSocket(puerto);
-            // Meter hilo aqui para poder crear una conexion concurrente, que el server escuche tod0 el rato al client
-            SSLSocket cliente = null;
+            // EL CLIENTE ME ENVIA UN MENSAJE
+            System.out.println("Recibiendo del CLIENTE: " + i + " \n\t"
+                    + flujoEntrada.readUTF());
 
-            DataInputStream flujoEntrada = null;
-            DataOutputStream flujoSalida = null;
+            flujoSalida = new DataOutputStream(clienteConectado.getOutputStream());
 
-            for (int i = 0; i < 5; i++) {
-
-                cliente = (SSLSocket) servidorSSL.accept();
-
-                flujoEntrada = new DataInputStream(cliente.getInputStream());
-                System.out.println(flujoEntrada.readUTF());
-            }
-
-            flujoEntrada.close();
-            flujoSalida.close();
-            cliente.close();
-            servidorSSL.close();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            // ENVIO UN SALUDO AL CLIENTE
+            flujoSalida.writeUTF("Saludos al cliente del servidor");
         }
-    }
+        // CERRAR STREAMS Y SOCKETS
+        flujoEntrada.close();
+        flujoSalida.close();
+        clienteConectado.close();
+        servidorSSL.close();
+
+    }// main
 }

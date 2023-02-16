@@ -1,35 +1,35 @@
-import javax.net.ssl.SSLServerSocket;
-import javax.net.ssl.SSLServerSocketFactory;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
+import javax.net.ssl.*;
 
-public class ClienteSSL {
+public class ClienteSSL  {
+    public static void main(String[] args) throws Exception {
+        String Host = "localhost";
+        int puerto = 5556;//puerto remoto
 
-    public static void main(String[] args) {
+        // Propiedades JSSE)
+        System.setProperty("javax.net.ssl.trustStore","src/AlmacenSrv2");
+        System.setProperty("javax.net.ssl.trustStorePassword","1234567");
 
-        int puerto = 6000;
+        System.out.println("PROGRAMA CLIENTE INICIADO....");
 
-        SSLSocketFactory sfac = (SSLSocketFactory) SSLSocketFactory.getDefault();
+        SSLSocketFactory sfact = (SSLSocketFactory) SSLSocketFactory.getDefault();
+        SSLSocket Cliente  = (SSLSocket) sfact.createSocket(Host, puerto);
 
-        try {
-            SSLSocket cliente = (SSLSocket) sfac.createSocket("localhost",puerto);
+        // CREO FLUJO DE SALIDA AL SERVIDOR
+        DataOutputStream flujoSalida = new DataOutputStream(Cliente.getOutputStream());
 
-            DataInputStream flujoEntrada = null;
-            DataOutputStream flujoSalida = null;
+        // ENVIO UN SALUDO AL SERVIDOR
+        flujoSalida.writeUTF("Saludos al SERVIDOR DESDE EL CLIENTE");
 
-            flujoSalida = new DataOutputStream(cliente.getOutputStream());
-            flujoSalida.writeUTF("ola");
+        // CREO FLUJO DE ENTRADA AL SERVIDOR
+        DataInputStream flujoEntrada = new DataInputStream(Cliente.getInputStream());
 
+        // EL servidor ME ENVIA UN MENSAJE
+        System.out.println("Recibiendo del SERVIDOR: \n\t" + flujoEntrada.readUTF());
 
-            flujoSalida.close();
-            flujoEntrada.close();
-            cliente.close();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-}
+        // CERRAR STREAMS Y SOCKETS
+        flujoEntrada.close();
+        flujoSalida.close();
+        Cliente.close();
+    }// main
+}//..ClienteSSLv
