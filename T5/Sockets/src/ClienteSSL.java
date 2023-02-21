@@ -4,7 +4,7 @@ import javax.net.ssl.*;
 public class ClienteSSL  {
     public static void main(String[] args) throws Exception {
         String Host = "localhost";
-        int puerto = 5556;//puerto remoto
+        int puerto = 6000;//puerto remoto
 
         // Propiedades JSSE)
         System.setProperty("javax.net.ssl.trustStore","src/AlmacenSrv2");
