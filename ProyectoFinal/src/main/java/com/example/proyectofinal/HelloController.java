@@ -22,18 +22,30 @@ public class HelloController implements Initializable {
     private Button logInButton;
 
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         instancias();
         acciones();
     }
 
-    private void acciones() {
-
-    }
-
     private void instancias() {
-        String email = emailField.getText();
-        String password = passwordField.getText();
+
     }
+
+    private void acciones() {
+        logInButton.setOnAction(new ManejoPulsaciones());
+    }
+
+    class ManejoPulsaciones implements EventHandler<ActionEvent> {
+
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            if(actionEvent.getSource()==logInButton){
+                String emailRecibido = emailField.getText();
+                System.out.println(emailRecibido);
+            }
+        }
+    }
+
 }
