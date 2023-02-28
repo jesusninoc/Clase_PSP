@@ -32,7 +32,7 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        
         instancias();
         acciones();
     }
@@ -49,7 +49,6 @@ public class LoginController implements Initializable {
         @Override
         public void handle(ActionEvent actionEvent) {
             if(actionEvent.getSource()==logInButton){
-
                 // Recogida de email y password
                 MessageDigest md;
                 String emailRecibido = emailField.getText();
@@ -59,9 +58,9 @@ public class LoginController implements Initializable {
                 try {
                     // Hasheado de password
                     md = MessageDigest.getInstance("SHA512");
-                    byte dataByte[] = passwordRecibida.getBytes();
+                    byte[] dataByte = passwordRecibida.getBytes();
                     md.update(dataByte);
-                    byte resumen[] = md.digest();
+                    byte[] resumen = md.digest();
 
                     //System.out.println(new String(resumen));
                     passwordHasheada = Hexadecimal(resumen);

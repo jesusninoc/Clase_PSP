@@ -7,6 +7,7 @@ module com.example.proyectofinal {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
+    requires javax.mail.api;
 
     opens com.example.proyectofinal to javafx.fxml;
     exports com.example.proyectofinal;
