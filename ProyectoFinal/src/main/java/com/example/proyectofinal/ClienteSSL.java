@@ -45,9 +45,9 @@ public class ClienteSSL  {
 
     private static void enviarEmail(String destinatario, String asunto, String cuerpo){
         // Email de envío
-        String remitente = "automatic.email.ces@gmail.com";
+        String remitente = "remitente@gmail.com";
         // Clave de al app
-        String claveEmail = "knchiilgyxzqckoi";
+        String claveEmail = "clave";
 
         Properties props = System.getProperties();
         props.put("mail.smtp.host", "smtp.gmail.com"); // Servidor SMTP de Google
