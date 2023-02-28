@@ -1,10 +1,16 @@
 package com.example.proyectofinal;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import java.util.ResourceBundle;
 import java.io.*;
+import java.util.ResourceBundle;
 import javax.net.ssl.*;
 
 public class ServidorSSL {
 
     public static void main(String[] args) {
+
         int puerto = 6000;
 
         System.setProperty("javax.net.ssl.keyStore","src/main/java/com/example/proyectofinal/AlmacenSrv2");

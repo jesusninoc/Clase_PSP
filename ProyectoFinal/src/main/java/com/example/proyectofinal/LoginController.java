@@ -12,7 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -28,17 +28,15 @@ public class LoginController implements Initializable {
     @FXML
     private Button logInButton;
 
+    File ficheroBBDD = new File("src/main/java/com/example/proyectofinal/database.txt");
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        
-        instancias();
         acciones();
     }
 
-    private void instancias() {
-    }
+
 
     private void acciones() {
         logInButton.setOnAction(new ManejoPulsaciones());
@@ -48,6 +46,7 @@ public class LoginController implements Initializable {
 
         @Override
         public void handle(ActionEvent actionEvent) {
+
             if(actionEvent.getSource()==logInButton){
                 // Recogida de email y password
                 MessageDigest md;
@@ -62,37 +61,14 @@ public class LoginController implements Initializable {
                     md.update(dataByte);
                     byte[] resumen = md.digest();
 
-                    //System.out.println(new String(resumen));
                     passwordHasheada = Hexadecimal(resumen);
-                    //System.out.println(passwordHasheada);
 
 
                 } catch (NoSuchAlgorithmException e) {
                     throw new RuntimeException(e);
                 }
 
-                //System.out.println(emailRecibido);
-                //System.out.println(passwordRecibida);
-
-                // Paso de datos a la siguiente ventana
-
-                Stage ventanaDatos = new Stage();
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("datos.fxml"));
-
-                Scene scene = null;
-
-                try {
-                    Parent parent = fxmlLoader.load();
-                    scene = new Scene(parent, 600, 600);
-                    DatosController datosController = fxmlLoader.getController();
-                    datosController.recogerDatos(emailRecibido, passwordHasheada);
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-                ventanaDatos.setScene(scene);
-                ventanaDatos.show();
+                leerFichero(ficheroBBDD, emailRecibido, passwordHasheada);
             }
         }
     }
@@ -108,6 +84,70 @@ public class LoginController implements Initializable {
         }
 
         return hex.toUpperCase();
+    }
+
+    public void leerFichero(File fichero, String usuario, String contrasenia) {
+
+        String cadena;
+
+
+        try {
+            FileReader fr = new FileReader(fichero);
+            BufferedReader br = new BufferedReader(fr);
+
+
+            while ((cadena = br.readLine()) != null) {
+
+                if (cadena.equalsIgnoreCase(usuario+","+contrasenia)) {
+                    System.out.println("Se ha encontrado el usuario:");
+                    System.out.println(cadena);
+
+                } else if (!cadena.equalsIgnoreCase(usuario+","+contrasenia)) {
+                    System.out.println("No se ha encontrado el usuario");
+                    System.out.println("- - - - Registrando nuevo usuario - - - - ");
+
+                    File f = fichero;
+                    FileWriter fw = new FileWriter(f, true);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    PrintWriter pw = new PrintWriter(fw);
+
+                    pw.println(usuario + "," + contrasenia);
+
+                    System.out.println("Se ha registrado el usuario con email " + usuario + " y contrasenia " + contrasenia);
+
+                    pw.close();
+                    bw.close();
+                    break;
+                }
+            }
+
+            br.close();
+            fr.close();
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Paso a la siguiente ventana
+
+        Stage ventanaDatos = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("datos.fxml"));
+
+        Scene scene = null;
+
+        try {
+            Parent parent = fxmlLoader.load();
+            scene = new Scene(parent, 600, 600);
+            ventanaDatos.setTitle("Datos");
+            ventanaDatos.setScene(scene);
+            ventanaDatos.show();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }

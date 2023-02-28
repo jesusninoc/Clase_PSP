@@ -1,4 +1,9 @@
 package com.example.proyectofinal;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 import java.io.*;
 import javax.net.ssl.*;
 import javax.mail.Message;
@@ -11,6 +16,12 @@ import java.util.Properties;
 
 public class ClienteSSL  {
     public static void main(String[] args) throws Exception {
+
+        String correo, asunto, mensaje;
+
+        DatosController datosController = new DatosController();
+        datosController.acciones();
+
         String Host = "localhost";
         int puerto = 6000;//puerto remoto
 
@@ -39,7 +50,6 @@ public class ClienteSSL  {
         flujoEntrada.close();
         flujoSalida.close();
         Cliente.close();
-
 
     }
 

@@ -1,5 +1,7 @@
 package com.example.proyectofinal;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -22,66 +24,43 @@ public class DatosController implements Initializable {
     @FXML
     private Button botonEnviar;
 
-    private String emailRecibido2, contraseniaRecibida;
-
-    //public String ficheroBBDD = "src/main/java/com/example/proyectofinal/database.txt";
-
-    File ficheroBBDD = new File("src/main/java/com/example/proyectofinal/database.txt");
+    private String correoDestinatario, asuntoCorreo, mensajeCorreo;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        acciones();
 
     }
 
-    public void recogerDatos(String emailPasado, String passwordPasada) {
-        emailRecibido2 = emailPasado;
-        contraseniaRecibida = passwordPasada;
-
-        leerFichero(ficheroBBDD, emailPasado, passwordPasada);
+    public void acciones() {
+        botonEnviar.setOnAction(new ManejoPulsaciones());
     }
 
-    public void leerFichero(File fichero, String usuario, String contrasenia) {
+    public String instanciarMensaje() {
+        mensajeCorreo = mensajeEmail.getText().toString();
+        return asuntoCorreo;
+    }
 
-        String cadena;
+    public String instanciarAsunto() {
+        asuntoCorreo = asuntoEmail.getText().toString();
+        return asuntoCorreo;
+    }
 
+    public String instanciarCorreo() {
+        correoDestinatario = emailDestino.getText().toString();
+        return correoDestinatario;
+    }
 
-        try {
-            FileReader fr = new FileReader(fichero);
-            BufferedReader br = new BufferedReader(fr);
-
-
-            while ((cadena = br.readLine()) != null) {
-
-                if (cadena.equalsIgnoreCase(usuario)) {
-                    System.out.println("Se ha encontrado el usuario:");
-                    System.out.println(cadena);
-
-                } else if (!cadena.equalsIgnoreCase(usuario)) {
-                    System.out.println("No se ha encontrado el usuario");
-                    System.out.println("- - - - Registrando nuevo usuario - - - - ");
-
-                    File f = fichero;
-                    FileWriter fw = new FileWriter(f, true);
-                    BufferedWriter bw = new BufferedWriter(fw);
-                    PrintWriter pw = new PrintWriter(fw);
-
-                    pw.println(usuario + "," + contrasenia);
-
-                    System.out.println("Se ha registrado el usuario con email " + usuario + " y contrasenia " + contrasenia);
-
-                    pw.close();
-                    bw.close();
-                    break;
-                }
+    class ManejoPulsaciones implements EventHandler<ActionEvent>{
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            if(actionEvent.getSource() == botonEnviar){
+                instanciarCorreo();
+                instanciarAsunto();
+                instanciarMensaje();
             }
-
-            br.close();
-            fr.close();
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
+
+
 }
